@@ -1,0 +1,30 @@
+version: '2'
+services:
+  # BACKEND
+  backend:
+    container_name: BACKEND
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/code
+    depends_on:
+        - redis
+  #REDIS
+  redis:
+    container_name: REDIS
+    image: redis
+  # FRONTEND
+  client:
+    container_name: CLIENT
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
